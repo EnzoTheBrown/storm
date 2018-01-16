@@ -1,0 +1,4 @@
+stormTP/operator/test/TestStatefulBolt.class
+stormTP/operator/test/TestStatefulWindowBolt.class
+stormTP/operator/test/TestStatelessWindowBolt.class
+stormTP/operator/test/TestStatelessBolt.class
