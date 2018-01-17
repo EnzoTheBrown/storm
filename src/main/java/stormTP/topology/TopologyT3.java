@@ -4,10 +4,7 @@ import org.apache.storm.Config;
 import org.apache.storm.StormSubmitter;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
-import stormTP.operator.Exit2Bolt;
-import stormTP.operator.MasterInputStreamSpout;
-import stormTP.operator.NothingBolt;
-import stormTP.operator.Exit3Bolt;
+import stormTP.operator.*;
 
 /**
  *
@@ -34,8 +31,9 @@ public class TopologyT3 {
         builder.setBolt("nofilter", new NothingBolt(), nbExecutors).shuffleGrouping("masterStream");
         /*Affectation à la topologie du bolt qui émet le flux de sortie, il prendra en input le bolt nofilter*/
 
-        builder.setBolt("exit", new Exit2Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
-        builder.setBolt("exit2", new Exit3Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit", new Fields("runner"));
+        builder.setBolt("exit", new MyTortoiseBolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
+        builder.setBolt("exit2", new GiveRankBolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit", new Fields("myTortoise"));
+        builder.setBolt("exit3", new Exit3Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit2", new Fields("giveRank"));
         /*Création d'une configuration*/
         Config config = new Config();
         /*La topologie est soumise à STORM*/

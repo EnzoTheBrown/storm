@@ -32,8 +32,8 @@ public class TopologyT5 {
         builder.setBolt("nofilter", new NothingBolt(), nbExecutors).shuffleGrouping("masterStream");
         /*Affectation à la topologie du bolt qui émet le flux de sortie, il prendra en input le bolt nofilter*/
 
-        builder.setBolt("exit", new Exit2Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
-        builder.setBolt("exit2", new SpeedBolt().withWindow(new BaseWindowedBolt.Count(10), new BaseWindowedBolt.Count(5)), nbExecutors).fieldsGrouping("exit", new Fields("runner"));
+        builder.setBolt("exit", new MyTortoiseBolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
+        builder.setBolt("exit2", new SpeedBolt().withWindow(new BaseWindowedBolt.Count(10), new BaseWindowedBolt.Count(5)), nbExecutors).fieldsGrouping("exit", new Fields("myTortoise"));
         builder.setBolt("exit3", new Exit5Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit2", new Fields("speed"));
         /*Création d'une configuration*/
         Config config = new Config();

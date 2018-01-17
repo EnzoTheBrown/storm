@@ -11,11 +11,10 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import stormTP.core.Runner;
 import stormTP.stream.StreamEmiter;
 import stormTP.core.TortoiseManager;
 
-public class Exit3Bolt implements IRichBolt {
+public class MyTortoiseBolt implements IRichBolt {
 
     private static final long serialVersionUID = 4262369370788107342L;
     //private static Logger logger = Logger.getLogger("ExitBolt");
@@ -24,7 +23,7 @@ public class Exit3Bolt implements IRichBolt {
     int port = -1;
     StreamEmiter semit = null;
 
-    public Exit3Bolt (int port, String ip) {
+    public MyTortoiseBolt (int port, String ip) {
         this.port = port;
         this.ipM = ip;
         this.semit = new StreamEmiter(this.port,this.ipM);
@@ -36,10 +35,10 @@ public class Exit3Bolt implements IRichBolt {
      */
     public void execute(Tuple t) {
 
-        Runner runner = (Runner) t.getValueByField("giveRank");
-        this.semit.send(runner.getJSONRank());
-        collector.ack(t);
-        collector.emit(new Values(runner));
+        String n = t.getValueByField("json").toString();
+        TortoiseManager tm = new TortoiseManager(5, "candy-lebrun");
+
+        collector.emit(new Values(tm.filter(n)));
 
         return;
 
@@ -50,8 +49,8 @@ public class Exit3Bolt implements IRichBolt {
     /* (non-Javadoc)
      * @see backtype.storm.topology.IComponent#declareOutputFields(backtype.storm.topology.OutputFieldsDeclarer)
      */
-    public void declareOutputFields(OutputFieldsDeclarer arg0) {
-        arg0.declare(new Fields("tortoise"));
+    public void declareOutputFields(OutputFieldsDeclarer declarer) {
+        declarer.declare(new Fields("myTortoise"));
     }
 
 
