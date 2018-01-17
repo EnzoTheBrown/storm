@@ -1,4 +1,7 @@
 stormTP/operator/test/TestStatefulBolt.class
 stormTP/operator/test/TestStatefulWindowBolt.class
+stormTP/core/RunnerEvolution.class
+stormTP/core/RunnerMean.class
 stormTP/operator/test/TestStatelessWindowBolt.class
+stormTP/operator/ComputeMeanBolt.class
 stormTP/operator/test/TestStatelessBolt.class

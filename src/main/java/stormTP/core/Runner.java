@@ -16,6 +16,15 @@ public class Runner{
 	int nbDerriere = -1;  //nombre de coureurs se trouvant derrière le coureur courant dans le classement 
 	int total = -1;  // nombre de coureurs en lice pour la course courante
 	int points = 0;  // nombre de points cumulés par le coureur
+	double mean = 0;
+
+	public double getMean() {
+		return mean;
+	}
+
+	public void setMean(double mean) {
+		this.mean = mean;
+	}
 
 	public double getSpeed() {
 		return speed;
@@ -156,6 +165,20 @@ public class Runner{
 		r.add("nom", this.nom);
 		r.add("rang", this.rang);
 		r.add("nbTotal", this.total);
+
+		return r.build().toString();
+	}
+
+	public String getJSONMean(){
+		JsonObjectBuilder r = null;
+		r = Json.createObjectBuilder();
+		/* construction de l'objet JSON résultat */
+		r.add("id", this.id);
+		r.add("top", this.top);
+		r.add("nom", this.nom);
+		r.add("rang", this.rang);
+		r.add("nbTotal", this.total);
+		r.add("mean", this.mean);
 
 		return r.build().toString();
 	}

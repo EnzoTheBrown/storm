@@ -1,8 +1,11 @@
+/home/enzo/storm/src/main/java/stormTP/operator/ComputeMeanBolt.java
+/home/enzo/storm/src/main/java/stormTP/core/RunnerEvolution.java
 /home/enzo/storm/src/main/java/stormTP/topology/TopologyT2.java
 /home/enzo/storm/src/main/java/stormTP/topology/TopologyT5.java
 /home/enzo/storm/src/main/java/stormTP/operator/Exit3Bolt.java
 /home/enzo/storm/src/main/java/stormTP/operator/ExitInLogBolt.java
 /home/enzo/storm/src/main/java/stormTP/core/TortoiseManager.java
+/home/enzo/storm/src/main/java/stormTP/operator/Exit6Bolt.java
 /home/enzo/storm/src/main/java/stormTP/topology/TopologyE1.java
 /home/enzo/storm/src/main/java/stormTP/core/Stream.java
 /home/enzo/storm/src/main/java/stormTP/operator/Exit2Bolt.java
@@ -10,6 +13,9 @@
 /home/enzo/storm/src/main/java/stormTP/operator/ExitBolt.java
 /home/enzo/storm/src/main/java/stormTP/stream/StreamEmiter.java
 /home/enzo/storm/src/main/java/stormTP/operator/Exit5Bolt.java
+/home/enzo/storm/src/main/java/stormTP/operator/RankEvolutionBolt.java
+/home/enzo/storm/src/main/java/stormTP/operator/GiveRankBolt.java
+/home/enzo/storm/src/main/java/stormTP/operator/MyTortoiseBolt.java
 /home/enzo/storm/src/main/java/stormTP/operator/NothingBolt.java
 /home/enzo/storm/src/main/java/stormTP/operator/MasterInputStreamSpout.java
 /home/enzo/storm/src/main/java/stormTP/topology/TopologyT6.java
@@ -27,3 +33,4 @@
 /home/enzo/storm/src/main/java/stormTP/observer/ObserverHook.java
 /home/enzo/storm/src/main/java/stormTP/core/Runner.java
 /home/enzo/storm/src/main/java/stormTP/operator/test/TestStatefulWindowBolt.java
+/home/enzo/storm/src/main/java/stormTP/core/RunnerMean.java

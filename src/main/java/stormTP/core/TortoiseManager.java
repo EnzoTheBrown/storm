@@ -128,20 +128,16 @@ public class TortoiseManager {
 
 	/**
 	 * Permet de calculer l'évolution du rang moyen d'une tortue
-	 * @param cavg : le rang moyen courant
-	 * @param pavg : le rang moyen précédent
+	 * @param pavg : le rang moyen courant
+	 * @param cavg : le rang moyen précédent
 	 * @return la chaine de caractères correspondante à l'évolution du rang moyen 
 	 */
-	public static String giveRankEvolution(int cavg, int pavg){
-				
-		String evol = "";
-		
-		//@TODO
-		
-		
-		return evol;
-		
-		
+	public static String giveRankEvolution(double pavg, double cavg){
+		if(cavg < pavg)
+			return "en régression";
+		if(pavg < cavg)
+			return "en progression";
+		return "constant";
 	}
 	
 	
