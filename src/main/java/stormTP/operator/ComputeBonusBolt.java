@@ -28,9 +28,9 @@ public class ComputeBonusBolt extends BaseWindowedBolt{
         // getting the last runner position of the window
         for(Tuple tuple : tupleWindow.get()){
             if(i == 0)
-                first = (Runner) tuple.getValueByField("tortoise");
+                first = (Runner) tuple.getValueByField("giveRank");
             i ++;
-            runner = (Runner) tuple.getValueByField("tortoise");
+            runner = (Runner) tuple.getValueByField("giveRank");
         }
 
         runner.setPoints(tortoiseManager.computePoints(runner.getRang(), runner.getTotal()) + first.getPoints());
