@@ -47,7 +47,6 @@ public class ExitInLogBolt implements IRichBolt {
 		String n = t.getValueByField("json").toString();
 		logger.info("[ExitInLOG]" + n);
 		collector.ack(t);
-		
 		return;
 		
 	}

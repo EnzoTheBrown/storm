@@ -2,6 +2,7 @@ package stormTP.core;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.json.*;
 
@@ -87,7 +88,7 @@ public class TortoiseManager {
 	 */
 
     public static int computePoints(String rang,  int total){
-        return total - Integer.valueOf(rang.replace("ex", "")) - 1;
+        return total - Integer.valueOf(rang.replace("ex", ""));
     }
 	
 
@@ -100,9 +101,9 @@ public class TortoiseManager {
 	 * @return la vitesse du coueur (en nombre moyen de cellules par top d'observation) arrondie à 2 chiffres après la virgule
 	 */
 	public static double computeSpeed(long topInit, long topFin, int posInit, int posFin){
-		if (posInit - posFin == 0)
+		if (posFin - posInit == 0.0	)
 			return 0;
-		return Math.abs(posInit - posFin)/(topFin - topInit);
+		return Math.floor(100*((double)((posFin - posInit))/((double)(topFin - topInit))))/100;
 	}
 
 	
@@ -115,10 +116,10 @@ public class TortoiseManager {
 				
 		
 		int rang = 0;
-		
-		//@TODO
-		
-		return rang;
+		for(int i = 0 ; i < rangs.length ; ++i){
+		    rang += Integer.valueOf(rangs[i].replace("ex", ""));
+        }
+		return rang/rangs.length;
 		
 	}
 	
@@ -131,13 +132,46 @@ public class TortoiseManager {
 	 */
 	public static String giveRankEvolution(double pavg, double cavg){
 		if(cavg < pavg)
-			return "en régression";
+			return "En régression";
 		if(pavg < cavg)
-			return "en progression";
-		return "constant";
+			return "En progression";
+		return "Constant";
 	}
-	
-	
+
+	public static String delete_last_char_java(String phrase) {
+		String rephrase = null;
+		if (phrase != null && phrase.length() > 1) {
+			rephrase = phrase.substring(0, phrase.length() - 1);
+		}
+		return rephrase;
+	}
+
+	public static String buildArray(ArrayList<String> runners){
+		String str = "[";
+		Collections.sort(runners);
+		for(String runner : runners){
+			str += "{\"nom\": \"" + runner +"\"}";
+			str += ",";
+		}
+		if(str.toCharArray()[str.length() - 1] == ',')
+			str = delete_last_char_java(str);
+		str += "]";
+		return str;
+	}
+
+	public static String buildSteps(ArrayList<ArrayList<String>> steps){
+		String str = "";
+		int i = 1;
+		for(ArrayList<String> step : steps){
+			str += "\"marcheP" + i + "\"" + ":" + buildArray(step);
+			if( i < steps.size())
+				str += ",";
+			i++;
+		}
+
+		return str;
+	}
+
 	/**
 	 * Permet de calculer le podium
 	 * @param input : objet JSON correspondant aux observations de la course
@@ -149,15 +183,16 @@ public class TortoiseManager {
 		JsonReader parseurJ = Json.createReader(new StringReader(input));
 		JsonObject json_tuple = parseurJ.readObject();
 		JsonArray jsonArray = json_tuple.getJsonArray(firstAttribute);
-
+		int top_ = 0;
 		ArrayList<Runner> runners = new ArrayList<>();
 		for(JsonValue j :jsonArray) {
 			JsonReader parseurT = Json.createReader(new StringReader(j.toString()));
 			JsonObject json_player = parseurT.readObject();
 
+			String name = json_player.getString("nom");
 			int id = json_player.getInt("id");
 			int top = json_player.getInt("top");
-			String name = json_player.getString("name");
+			top_ = top;
 			int position = json_player.getInt("position");
 			int nbDevant = json_player.getInt("nbDevant");
 			int nbDerriere = json_player.getInt("nbDerriere");
@@ -170,31 +205,7 @@ public class TortoiseManager {
 			runners1[i] = runner;
 			++i;
 		}
-
-        ArrayList<ArrayList<String>> runners2 = computePodium(runners1);
-		JsonObject value = Json.createObjectBuilder()
-				.add("top", "123")
-				.add("marcheP1", Json.createObjectBuilder())
-				.add("age", 25)
-				.add("address", Json.createObjectBuilder()
-						.add("streetAddress", "21 2nd Street")
-						.add("city", "New York")
-						.add("state", "NY")
-						.add("postalCode", "10021"))
-				.add("phoneNumber", Json.createArrayBuilder()
-						.add(Json.createObjectBuilder()
-								.add("type", "home")
-								.add("number", "212 555-1234"))
-						.add(Json.createObjectBuilder()
-								.add("type", "fax")
-								.add("number", "646 555-4567")))
-				.build();
-
-
-		return value.toString();
-		
-						
-		
+		return "{\"top\": " + top_ + ", "+ buildSteps(computePodium(runners1)) + "}";
 	}
 
 
