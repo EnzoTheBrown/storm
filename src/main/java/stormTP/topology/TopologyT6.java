@@ -20,7 +20,7 @@ public class TopologyT6 {
         builder.setBolt("nofilter", new NothingBolt(), nbExecutors).shuffleGrouping("masterStream");
         builder.setBolt("exit", new MyTortoiseBolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
         builder.setBolt("exit2", new GiveRankBolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit", new Fields("myTortoise"));
-        builder.setBolt("exit3", new ComputeMeanBolt().withWindow(new BaseWindowedBolt.Count(3), new BaseWindowedBolt.Count(3)), nbExecutors).fieldsGrouping("exit2", new Fields("giveRank"));
+        builder.setBolt("exit3", new ComputeMeanBolt().withWindow(new BaseWindowedBolt.Count(10), new BaseWindowedBolt.Count(10)), nbExecutors).fieldsGrouping("exit2", new Fields("giveRank"));
         builder.setBolt("exit4", new RankEvolutionBolt().withWindow(new BaseWindowedBolt.Count(2), new BaseWindowedBolt.Count(1)), nbExecutors).fieldsGrouping("exit3", new Fields("mean"));
         builder.setBolt("exit5", new Exit6Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit4", new Fields("evolution"));
         StormSubmitter.submitTopology("topoT6", new Config(), builder.createTopology());

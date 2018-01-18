@@ -3,10 +3,7 @@ package stormTP.core;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 
 /**
  Classe regroupant les fonctionnalités nécessaires au traitement des flux des coureurs
@@ -147,20 +144,60 @@ public class TortoiseManager {
 	 * @return objet JSON correspondant au podium
 	 */
 	public static String getPodium(String input){
-				
-		JsonObjectBuilder r =  Json.createObjectBuilder();
 
-		//@TODO
-		
-		
-        
-		return r.build().toString();
+		String firstAttribute = "rabbits";
+		JsonReader parseurJ = Json.createReader(new StringReader(input));
+		JsonObject json_tuple = parseurJ.readObject();
+		JsonArray jsonArray = json_tuple.getJsonArray(firstAttribute);
+
+		ArrayList<Runner> runners = new ArrayList<>();
+		for(JsonValue j :jsonArray) {
+			JsonReader parseurT = Json.createReader(new StringReader(j.toString()));
+			JsonObject json_player = parseurT.readObject();
+
+			int id = json_player.getInt("id");
+			int top = json_player.getInt("top");
+			String name = json_player.getString("name");
+			int position = json_player.getInt("position");
+			int nbDevant = json_player.getInt("nbDevant");
+			int nbDerriere = json_player.getInt("nbDerriere");
+			int total = json_player.getInt("total");
+			runners.add(new Runner(id, name, nbDevant, nbDerriere, total, position, top));
+		}
+		Runner[] runners1 = new Runner[runners.size()];
+		int i = 0;
+		for(Runner runner : runners){
+			runners1[i] = runner;
+			++i;
+		}
+
+        ArrayList<ArrayList<String>> runners2 = computePodium(runners1);
+		JsonObject value = Json.createObjectBuilder()
+				.add("top", "123")
+				.add("marcheP1", Json.createObjectBuilder())
+				.add("age", 25)
+				.add("address", Json.createObjectBuilder()
+						.add("streetAddress", "21 2nd Street")
+						.add("city", "New York")
+						.add("state", "NY")
+						.add("postalCode", "10021"))
+				.add("phoneNumber", Json.createArrayBuilder()
+						.add(Json.createObjectBuilder()
+								.add("type", "home")
+								.add("number", "212 555-1234"))
+						.add(Json.createObjectBuilder()
+								.add("type", "fax")
+								.add("number", "646 555-4567")))
+				.build();
+
+
+		return value.toString();
 		
 						
 		
 	}
 
-	
+
 	/**
 	 * S'assure que le podium est complet et réaffecte le classement en fonction des ex aequo.
 	 * @param* de coureurs classé par leur rang
