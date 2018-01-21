@@ -23,16 +23,17 @@ public class SpeedBolt extends BaseWindowedBolt{
         int i = 0;
         for(Tuple tuple : tupleWindow.get()) {
             if (i == 0)
-                firstRunner = (Runner) tuple.getValueByField("myTortoise");
-            lastRunner = (Runner) tuple.getValueByField("myTortoise");
+                firstRunner = tortoiseManager.filter(tuple.getValueByField("myTortoise").toString());
+            lastRunner = (Runner) tortoiseManager.filter(tuple.getValueByField("myTortoise").toString());
         }
         double speed = tortoiseManager.computeSpeed(
                 firstRunner.getTop(),
                 lastRunner.getTop(),
-                firstRunner.getNbDevant(),
-                lastRunner.getNbDevant()
+                firstRunner.getPosition(),
+                lastRunner.getPosition()
         );
         lastRunner.setSpeed(speed);
+        lastRunner.setTops(firstRunner.getTop() + "-" + lastRunner.getTop());
 
         collector.emit(new Values(lastRunner));
     }

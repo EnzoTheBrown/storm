@@ -7,12 +7,6 @@ import org.apache.storm.topology.base.BaseWindowedBolt;
 import org.apache.storm.tuple.Fields;
 import stormTP.operator.*;
 
-/**
- *
- * @author lumineau
- * Topologie test permettant d'écouter le Master Input
- *
- */
 public class TopologyT4 {
 
 	public static void main(String[] args) throws Exception {

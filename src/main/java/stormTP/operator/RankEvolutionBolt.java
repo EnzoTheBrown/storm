@@ -26,12 +26,12 @@ public class RankEvolutionBolt extends BaseWindowedBolt{
         TortoiseManager tortoiseManager = new TortoiseManager(5, "Candy-Lebrun");
         RunnerMean runner1 = (RunnerMean) tupleWindow.get().get(0).getValueByField("mean");
         if(tupleWindow.get().size() == 1) {
-            collector.emit(new Values(new RunnerEvolution(runner1.getRunner(), tortoiseManager.giveRankEvolution(runner1.getMean(), runner1.getMean()))));
+            collector.emit(new Values(new RunnerEvolution(runner1.getRunner(), "no result")));
             return;
         }
         else{
             RunnerMean runner2 = (RunnerMean) tupleWindow.get().get(1).getValueByField("mean");
-            collector.emit(new Values(new RunnerEvolution(runner2.getRunner(), tortoiseManager.giveRankEvolution(runner1.getMean(), runner2.getMean()))));
+            collector.emit(new Values(new RunnerEvolution(runner2.getRunner(), tortoiseManager.giveRankEvolution(runner2.getMean(), runner1.getMean()))));
         }
     }
 

@@ -249,13 +249,4 @@ public class TortoiseManager {
 		return marchesPodium;
 		
 	}
-	
-	
-	
-	
-
-	
-	
-	
-
 }

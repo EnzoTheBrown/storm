@@ -19,8 +19,7 @@ public class TopologyT5 {
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("masterStream", spout);
         builder.setBolt("nofilter", new NothingBolt(), nbExecutors).shuffleGrouping("masterStream");
-        builder.setBolt("exit", new MyTortoiseBolt(portOUTPUT, ipmOUTPUT), nbExecutors).shuffleGrouping("nofilter");
-        builder.setBolt("exit2", new SpeedBolt().withWindow(new BaseWindowedBolt.Count(10), new BaseWindowedBolt.Count(5)), nbExecutors).fieldsGrouping("exit", new Fields("myTortoise"));
+        builder.setBolt("exit2", new SpeedBolt().withWindow(new BaseWindowedBolt.Count(10), new BaseWindowedBolt.Count(5)), nbExecutors).fieldsGrouping("nofilter", new Fields("json"));
         builder.setBolt("exit3", new Exit5Bolt(portOUTPUT, ipmOUTPUT), nbExecutors).fieldsGrouping("exit2", new Fields("speed"));
         Config config = new Config();
         StormSubmitter

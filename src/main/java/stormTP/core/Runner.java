@@ -17,7 +17,7 @@ public class Runner{
 	int total = -1;  // nombre de coureurs en lice pour la course courante
 	int points = 0;  // nombre de points cumulés par le coureur
 	double mean = 0;
-
+	String tops = "";
 	public double getMean() {
 		return mean;
 	}
@@ -39,7 +39,11 @@ public class Runner{
 	public Runner(){
 		
 	}
-	
+
+	public void setTops(String tops) {
+		this.tops = tops;
+	}
+
 	public Runner(long id, String name, int before, int after, int total, int position, long top){
 		this.id = id;
 		this.nom = name;
@@ -150,6 +154,7 @@ public class Runner{
 		r.add("top", this.top);
 		r.add("nom", this.nom);
 		r.add("speed", this.speed);
+		r.add("tops", this.tops);
 
 		return r.build().toString();
 	}
